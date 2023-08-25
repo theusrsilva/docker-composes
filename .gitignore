@@ -1,1 +1,3 @@
 .idea
+/docker
+/banco-de-dados/docker/db/dbdata
