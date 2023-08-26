@@ -22,27 +22,13 @@ services:
         restart: always
         tty: true
         ports:
-            - "8000:80"
+            - "8083:80"
         volumes:
             - .:/var/www
         networks:
             - app-network
         depends_on:
             - app
-
-    db:
-        build: ./.docker/mysql
-        restart: always
-        tty: true
-        ports:
-            - "3306:3306"
-        volumes:
-            - ./.docker/dbdata:/var/lib/mysql
-        environment:
-            - MYSQL_DATABASE=laravel
-            - MYSQL_ROOT_PASSWORD=root
-        networks:
-            - app-network
 
 
 networks:
