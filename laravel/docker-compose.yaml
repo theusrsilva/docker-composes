@@ -3,34 +3,32 @@ version: '3'
 services:
 
     app:
-        build: .
-        entrypoint: dockerize -wait tcp://db:3306 -timeout 40s ./.docker/entrypoint.sh
-        environment:
-            - _DB_HOST=db
-            - _DB_DATABASE=laravel
-            - _DB_USERNAME=root
-            - _DB_PASSWORD=root
+        build: 
+            args:
+                user: sammy
+                uid: 1000
+            context: ./
+        container_name: pokedex-app
+        working_dir: /var/www/
         volumes:
             - .:/var/www
         networks:
-            - app-network
-        depends_on:
-            - db
+            - rocha
 
     nginx:
         build: .docker/nginx
         restart: always
+        container_name: pokedex-web
         tty: true
         ports:
             - "8083:80"
         volumes:
             - .:/var/www
         networks:
-            - app-network
+            - rocha
         depends_on:
             - app
 
-
 networks:
-    app-network:
-        driver: bridge
+    rocha:
+        external: true
